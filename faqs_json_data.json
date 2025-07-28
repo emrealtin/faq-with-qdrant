@@ -1,0 +1,24 @@
+{
+    "faqs": [
+        {
+            "question": "Siparişim nerede?",
+            "answer": "Siparişiniz kargoya verildi."
+        },
+        {
+            "question": "Ürünüm hasar gördü.",
+            "answer": "Hasar için lütfen destekle iletişime geçin."
+        },
+        {
+            "question": "İade süreci nasıl işliyor?",
+            "answer": "İade için form doldurmanız gerekiyor."
+        },
+        {
+            "question": "Kargo ücreti ne kadar?",
+            "answer": "100 TL ve üzeri alışverişlerde kargo ücretsizdir."
+        },
+        {
+            "question": "Ödeme seçenekleri nelerdir?",
+            "answer": "Kredi kartı, havale/EFT ve kapıda ödeme seçeneklerimiz mevcuttur."
+        }
+    ]
+}

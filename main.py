@@ -3,12 +3,10 @@ from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, PointStruct
+import json
 
 app = FastAPI()
-# Gelen soruları embeddinge çevirmek için sentence transformer modeli kullanıldı
 model = SentenceTransformer('all-MiniLM-L6-v2')
-
-# Qdrant client
 qdrant = QdrantClient(host="localhost", port=6333)
 
 COLLECTION_NAME = "faq_collection"
@@ -22,12 +20,21 @@ except Exception:
         vectors_config=VectorParams(size=384, distance=Distance.COSINE)
     )
 
-# Örnek soru-cevaplar
-faq = [
-    ("Siparişim nerede?", "Siparişiniz kargoya verildi."),
-    ("Ürünüm hasar gördü.", "Hasar için lütfen destekle iletişime geçin."),
-    ("İade süreci nasıl işliyor?", "İade için form doldurmanız gerekiyor."),
-]
+# JSON dosyasından FAQ verilerini yükle
+def load_faq_data():
+    try:
+        with open('faq_data.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            return [(item["question"], item["answer"]) for item in data["faqs"]]
+    except FileNotFoundError:
+        print("FAQ veri dosyası bulunamadı!")
+        return []
+    except json.JSONDecodeError:
+        print("FAQ veri dosyası geçerli JSON formatında değil!")
+        return []
+
+# FAQ verilerini yükle
+faq = load_faq_data()
 
 # Soru embeddinglerini hesapla ve Qdrant'a yükle
 for idx, (q, a) in enumerate(faq):
